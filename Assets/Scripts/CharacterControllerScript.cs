@@ -31,5 +31,10 @@ public class CharacterControllerScript : MonoBehaviour
 	    float rotation = Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime;
         transform.Translate(0, 0, forwardMotion);
         transform.Rotate(0, rotation, 0);
+
+	    if (Input.GetButtonDown("Jump"))
+	    {
+	        anim.SetTrigger("IsJumping");
+	    }
 	}
 }
