@@ -22,6 +22,7 @@ public class CharacterControllerScript : MonoBehaviour
 	    if (forwardMotion != 0)
 	    {
 	        anim.SetBool("IsWalking", true);
+            anim.SetFloat("CharacterSpeed", forwardMotion);
 	    }
 	    else
 	    {
