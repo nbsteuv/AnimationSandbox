@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Controllable : MonoBehaviour
 {
-    private bool selected = false;
-    private Animator anim;
+    private GameControllerScript gameController;
+    private bool active = false;
     
 	// Use this for initialization
 	void Start ()
 	{
-	    anim = gameObject.GetComponent<Animator>();
+	    gameController = GameObject.Find("GameController").GetComponent<GameControllerScript>();
 	}
 	
 	// Update is called once per frame
@@ -20,12 +20,18 @@ public class Controllable : MonoBehaviour
 
     void OnMouseDown()
     {
-        getControl();
+        gameController.setActiveCharacter(gameObject);
     }
 
-    void getControl()
+    public void activate()
     {
-        selected = true;
+        Debug.Log("Activated");
+        active = true;
+    }
+
+    public void deactivate()
+    {
+        Debug.Log("Deactivated");
     }
 
 }
