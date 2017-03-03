@@ -6,6 +6,7 @@ public class Interactable : MonoBehaviour
 {
 
     private GameControllerScript gameController;
+    private GameObject actor = null;
 
     // Use this for initialization
     void Start () {
@@ -16,6 +17,20 @@ public class Interactable : MonoBehaviour
 	void Update () {
 		
 	}
+
+    void OnMouseDown()
+    {
+        GameObject activeCharacter = gameController.getActiveCharacter();
+        if (activeCharacter != null)
+        {
+            Debug.Log("Found character, interacting");
+        }
+        else
+        {
+            Debug.Log("No active character");
+        }
+        
+    }
 
 
 }

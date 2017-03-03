@@ -27,4 +27,10 @@ public class GameControllerScript : MonoBehaviour
         activeCharacter = newActiveCharacter;
         activeCharacter.GetComponent<Controllable>().activate();
     }
+
+    public GameObject getActiveCharacter()
+    {
+        return activeCharacter;
+    }
+
 }
