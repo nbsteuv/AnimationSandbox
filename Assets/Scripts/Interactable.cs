@@ -24,6 +24,7 @@ public class Interactable : MonoBehaviour
         if (activeCharacter != null)
         {
             Debug.Log("Found character, interacting");
+            actor = activeCharacter;
         }
         else
         {
