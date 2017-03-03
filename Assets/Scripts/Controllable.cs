@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Controllable : MonoBehaviour
 {
+    public GameObject haloPrefab;
+    public Vector3 haloOffset;
+
     private GameControllerScript gameController;
     private bool active = false;
+    private GameObject halo = null;
     
 	// Use this for initialization
 	void Start ()
@@ -25,13 +29,14 @@ public class Controllable : MonoBehaviour
 
     public void activate()
     {
-        Debug.Log("Activated");
+        halo = Instantiate(haloPrefab, transform.position + haloOffset, Quaternion.identity);
         active = true;
     }
 
     public void deactivate()
     {
-        Debug.Log("Deactivated");
+        DestroyObject(halo);
+        active = false;
     }
 
 }
