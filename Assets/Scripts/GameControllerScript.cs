@@ -18,7 +18,6 @@ public class GameControllerScript : MonoBehaviour
 	    {
 	        if (activeCharacter != null)
 	        {
-                Debug.Log("Active character is not null.");
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 	            RaycastHit hit;
 	            if (Physics.Raycast(ray, out hit))

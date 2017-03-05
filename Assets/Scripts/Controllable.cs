@@ -7,10 +7,12 @@ public class Controllable : MonoBehaviour
 {
     public GameObject haloPrefab;
     public Vector3 haloOffset;
-    public float speed;
+    public float selectToActionWait = 0.05f;
+    public float speed = 2;
 
     private GameControllerScript gameController;
     private Animator anim;
+    private float timeUntilAction = 0;
     private bool active = false;
     private GameObject halo = null;
 
@@ -29,6 +31,11 @@ public class Controllable : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
+        if (timeUntilAction > 0)
+        {
+            timeUntilAction -= Time.deltaTime;
+        }
+
         if (active && Vector3.Distance(transform.position, targetPosition) > 0.01)
 	    {
             Debug.Log(Vector3.Distance(transform.position, targetPosition));
@@ -51,6 +58,7 @@ public class Controllable : MonoBehaviour
     public void activate()
     {
         halo = Instantiate(haloPrefab, transform.position + haloOffset, Quaternion.identity);
+        timeUntilAction = selectToActionWait;
         active = true;
     }
 
@@ -62,12 +70,12 @@ public class Controllable : MonoBehaviour
 
     public void walk(float locationX, float locationZ)
     {
-        Debug.Log("Walk called");
-        moveStartTime = Time.time;
-        moveStartPosition = transform.position;
-        Debug.Log("Move start position: " + moveStartPosition);
-        targetPosition = new Vector3(locationX, transform.position.y, locationZ);
-        Debug.Log("Target position: " + targetPosition);
+        if (timeUntilAction <= 0)
+        {
+            moveStartTime = Time.time;
+            moveStartPosition = transform.position;
+            targetPosition = new Vector3(locationX, transform.position.y, locationZ);
+        }
     }
 
 }
