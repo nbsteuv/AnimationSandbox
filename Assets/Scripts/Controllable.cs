@@ -29,11 +29,11 @@ public class Controllable : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-	    if (targetPosition != transform.position)
+        if (active && Vector3.Distance(transform.position, targetPosition) > 0.01)
 	    {
+            Debug.Log(Vector3.Distance(transform.position, targetPosition));
 	        anim.SetBool("IsWalking", true);
 	        float percentageCovered = ((Time.time - moveStartTime) * speed) / Vector3.Distance(moveStartPosition, targetPosition);
-            //Debug.Log(percentageCovered);
 	        Vector3 newPosition = Vector3.Lerp(moveStartPosition, targetPosition, percentageCovered);
 	        transform.position = newPosition;
 	    }
