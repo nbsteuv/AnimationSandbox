@@ -58,6 +58,7 @@ public class Controllable : MonoBehaviour
     public void activate()
     {
         halo = Instantiate(haloPrefab, transform.position + haloOffset, Quaternion.identity);
+        halo.transform.parent = transform;
         timeUntilAction = selectToActionWait;
         active = true;
     }
