@@ -19,15 +19,18 @@ public class GameControllerScript : MonoBehaviour
 	        if (activeCharacter != null)
 	        {
                 Debug.Log("Active character is not null.");
-	            Vector3 mousePosition = Input.mousePosition;
-	            float mousePositionX = mousePosition.x;
-	            float mousePositionZ = mousePosition.z;
-                Debug.Log("Mouse position: " + mousePosition);
-                Controllable activeCharacterControllerScript = activeCharacter.GetComponent<Controllable>();
-	            if (activeCharacterControllerScript != null)
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+	            RaycastHit hit;
+	            if (Physics.Raycast(ray, out hit))
 	            {
-                    Debug.Log("Calling active character script walk");
-                    activeCharacterControllerScript.walk(mousePositionX, mousePositionZ);
+	                Vector3 mousePosition = hit.point;
+                    float mousePositionX = mousePosition.x;
+                    float mousePositionZ = mousePosition.z;
+                    Controllable activeCharacterControllerScript = activeCharacter.GetComponent<Controllable>();
+                    if (activeCharacterControllerScript != null)
+                    {
+                        activeCharacterControllerScript.walk(mousePositionX, mousePositionZ);
+                    }
                 }
 	        }
 	    }

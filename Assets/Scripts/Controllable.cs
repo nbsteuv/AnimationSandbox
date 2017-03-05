@@ -33,8 +33,9 @@ public class Controllable : MonoBehaviour
 	    {
 	        anim.SetBool("IsWalking", true);
 	        float percentageCovered = ((Time.time - moveStartTime) * speed) / Vector3.Distance(moveStartPosition, targetPosition);
-            Debug.Log(percentageCovered);
-	        transform.position = Vector3.Lerp(moveStartPosition, targetPosition, percentageCovered);
+            //Debug.Log(percentageCovered);
+	        Vector3 newPosition = Vector3.Lerp(moveStartPosition, targetPosition, percentageCovered);
+	        transform.position = newPosition;
 	    }
 	    else
 	    {
