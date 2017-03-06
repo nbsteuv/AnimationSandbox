@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Resources;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class Controllable : MonoBehaviour
     public Vector3 haloOffset;
     public float selectToActionWait = 0.05f;
     public float speed = 2;
-    public float rotationDampen = 55f;
+    public float rotationSpeed = 5f;
 
     private GameControllerScript gameController;
     private Animator anim;
@@ -22,9 +23,8 @@ public class Controllable : MonoBehaviour
     private Vector3 moveStartPosition;
 
     private Quaternion targetDirection;
-    private float rotationStartTime;
-    private Quaternion rotationStartDirection;
-
+    private float rotationTime;
+    private float rotationCurve;
     
 	// Use this for initialization
 	void Start ()
@@ -43,7 +43,10 @@ public class Controllable : MonoBehaviour
             timeUntilAction -= Time.deltaTime;
         }
 
-	    moveToTarget();
+	    if (active && turnToTarget())
+	    {
+	        moveToTarget();
+	    }
 	}
 
     void OnMouseDown()
@@ -78,23 +81,49 @@ public class Controllable : MonoBehaviour
 
     private void moveToTarget()
     {
-        if (active && targetDirection != transform.rotation)
-        {
-            Quaternion newRotation = Quaternion.Slerp(transform.rotation, targetDirection,
-                1f - (Time.deltaTime * rotationDampen));
-            transform.rotation = newRotation;
-        }
-
-        if (active && Vector3.Distance(transform.position, targetPosition) > 0.01)
+        if (Vector3.Distance(transform.position, targetPosition) > 0.01)
         {
             anim.SetBool("IsWalking", true);
-            float percentageCovered = ((Time.time - moveStartTime) * speed) / Vector3.Distance(moveStartPosition, targetPosition);
-            Vector3 newPosition = Vector3.Lerp(moveStartPosition, targetPosition, percentageCovered);
+            float percentageCovered = (Time.deltaTime * speed) / Vector3.Distance(transform.position, targetPosition);
+            Vector3 newPosition = Vector3.Lerp(transform.position, targetPosition, percentageCovered);
             transform.position = newPosition;
         }
         else
         {
             anim.SetBool("IsWalking", false);
+        }
+    }
+
+    private bool turnToTarget()
+    {
+        if (targetDirection != transform.rotation)
+        {
+            anim.SetBool("IsWalking", true);
+
+            Quaternion newRotation;
+
+            rotationTime += Time.deltaTime;
+            float newRotationCurve = Mathf.Abs(Mathf.Sin(rotationTime * rotationSpeed));
+            
+            if (newRotationCurve > rotationCurve && newRotationCurve < 0.97f)
+            {
+                rotationCurve = newRotationCurve;
+                newRotation = Quaternion.Slerp(transform.rotation, targetDirection,
+                rotationCurve);
+            }
+            else
+            {
+                newRotation = targetDirection;
+            }
+
+            transform.rotation = newRotation;
+            return false;
+        }
+        else
+        {
+            rotationTime = 0;
+            rotationCurve = 0;
+            return true;
         }
     }
 
