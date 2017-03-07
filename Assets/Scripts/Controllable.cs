@@ -18,7 +18,7 @@ public class Controllable : MonoBehaviour
     private bool active = false;
     private GameObject halo = null;
 
-    private bool moveable = true;
+    private GameObject controller = null;
 
     private Vector3 targetPosition;
 
@@ -70,7 +70,7 @@ public class Controllable : MonoBehaviour
 
     public void walk(float locationX, float locationZ)
     {
-        if (timeUntilAction <= 0 && moveable)
+        if (timeUntilAction <= 0 && controller == null)
         {
             targetPosition = new Vector3(locationX, transform.position.y, locationZ);
             targetDirection = Quaternion.LookRotation(targetPosition - transform.position, Vector3.up);
@@ -125,9 +125,9 @@ public class Controllable : MonoBehaviour
         }
     }
 
-    public void setIsMoveable(bool moveableToggle)
+    public void setController(GameObject newController)
     {
-        moveable = moveableToggle;
+        controller = newController;
     }
 
 }
