@@ -1,16 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
     public GameObject[] interactZones;
+    public enum Interaction
+    {
+        Sit,
+        Jump
+    }
+    public Interaction interaction;
     public float interactDistance = 0.6f;
 
     private GameControllerScript gameController;
 
     private Dictionary<GameObject, GameObject> interactZoneSlots;
-
     private List<GameObject> watchForCloseDistance;
 
     // Use this for initialization
@@ -60,7 +66,16 @@ public class Interactable : MonoBehaviour
 
     void interact(GameObject actor)
     {
-        Debug.Log("Interacting");
+        switch (interaction)
+        {
+            case Interaction.Sit:
+                sit(actor);
+                break;
+            case Interaction.Jump:
+                Debug.Log("jump");
+                break;
+        }
+        
     }
 
     void checkActorDistances()
@@ -82,5 +97,8 @@ public class Interactable : MonoBehaviour
         }
     }
 
-
+    void sit(GameObject actor)
+    {
+        actor.GetComponent<Animator>().SetBool("IsSitting", true);
+    }
 }
