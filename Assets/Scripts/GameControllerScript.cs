@@ -22,7 +22,7 @@ public class GameControllerScript : MonoBehaviour
 	            RaycastHit hit;
 	            if (Physics.Raycast(ray, out hit))
 	            {
-	                if (hit.collider.gameObject.GetComponent<Interactable>() != null)
+	                if (hit.collider.gameObject.GetComponent<Interactable>() != null || hit.collider.gameObject.GetComponent<Controllable>() != null)
 	                {
 	                    return;
 	                }
