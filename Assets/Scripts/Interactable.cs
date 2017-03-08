@@ -107,7 +107,7 @@ public class Interactable : MonoBehaviour
         Debug.Log("Rotate");
         Debug.Log(slot.transform.rotation);
         Controllable actorControl = actor.GetComponent<Controllable>();
-        actorControl.setInteracting(true);
+        actorControl.setInteracting(1);
         //TODO: Lerp and Slerp in coroutines here
         actor.transform.rotation = slot.transform.rotation;
         actor.transform.position = slot.transform.position;

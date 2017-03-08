@@ -16,6 +16,7 @@ public class Controllable : MonoBehaviour
     private Animator anim;
     private float timeUntilAction = 0;
     private bool active = false;
+    private bool animationLock = false;
     private GameObject halo = null;
 
     private GameObject controller = null;
@@ -136,14 +137,30 @@ public class Controllable : MonoBehaviour
         controller = newController;
     }
 
-    public void setInteracting(bool isInteracting)
+    public void setInteracting(int isInteracting)
     {
-        interacting = isInteracting;
+        if (isInteracting > 0)
+        {
+            interacting = true;
+        }
+        else
+        {
+            interacting = false;
+        }
     }
 
-    public void setInteractInProgress()
+    public void setAnimationLock(int IsAnimationLock)
     {
-        Debug.Log("Interacting in progress");
+        if(IsAnimationLock > 0)
+        {
+            Debug.Log("Animation lock on");
+            animationLock = true;
+        }
+        else
+        {
+            Debug.Log("Animation lock off");
+            animationLock = false;
+        }
     }
 
 }
