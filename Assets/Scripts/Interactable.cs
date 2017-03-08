@@ -34,7 +34,6 @@ public class Interactable : MonoBehaviour
 
     void OnMouseDown()
     {
-        Debug.Log("Clicked");
         GameObject activeCharacter = gameController.getActiveCharacter();
         if (activeCharacter != null)
         {
@@ -43,8 +42,6 @@ public class Interactable : MonoBehaviour
                 GameObject openSlot = findOpenSlot();
                 interactZoneSlots.Add(openSlot, activeCharacter);
                 watchForCloseDistance.Add(openSlot);
-                Debug.Log(openSlot.transform.position.x);
-                Debug.Log(openSlot.transform.position.z);
                 activeCharacter.GetComponent<Controllable>().walk(openSlot.transform.position.x, openSlot.transform.position.z);
             }
         }
@@ -87,6 +84,7 @@ public class Interactable : MonoBehaviour
         foreach (GameObject slot in watchForCloseDistance)
         {
             GameObject actor = interactZoneSlots[slot];
+            Debug.Log(Vector3.Distance(actor.transform.position, slot.transform.position));
             if (Vector3.Distance(actor.transform.position, slot.transform.position) < interactDistance)
             {
                 removeList.Add(slot);
@@ -103,6 +101,9 @@ public class Interactable : MonoBehaviour
     void sit(GameObject actor, GameObject slot)
     {
         Debug.Log("Rotate");
+        Debug.Log(slot.transform.rotation);
+        Controllable actorControl = actor.GetComponent<Controllable>();
+        actorControl.setInteracting(true);
         actor.transform.rotation = slot.transform.rotation;
         Debug.Log("Sit");
         actor.GetComponent<Animator>().SetBool("IsSitting", true);

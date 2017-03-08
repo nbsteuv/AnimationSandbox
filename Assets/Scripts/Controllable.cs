@@ -25,6 +25,7 @@ public class Controllable : MonoBehaviour
     private Quaternion targetDirection;
     private float rotationTime;
     private float rotationCurve;
+    private bool interacting;
     
 	// Use this for initialization
 	void Start ()
@@ -94,6 +95,11 @@ public class Controllable : MonoBehaviour
 
     private bool turnToTarget()
     {
+        if (interacting)
+        {
+            return true;
+        }
+
         if (targetDirection != transform.rotation)
         {
             anim.SetBool("IsWalking", true);
@@ -128,6 +134,11 @@ public class Controllable : MonoBehaviour
     public void setController(GameObject newController)
     {
         controller = newController;
+    }
+
+    public void setInteracting(bool isInteracting)
+    {
+        interacting = isInteracting;
     }
 
 }
