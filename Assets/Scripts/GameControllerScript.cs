@@ -22,7 +22,12 @@ public class GameControllerScript : MonoBehaviour
 	            RaycastHit hit;
 	            if (Physics.Raycast(ray, out hit))
 	            {
-	                Vector3 mousePosition = hit.point;
+	                if (hit.collider.gameObject.GetComponent<Interactable>() != null)
+	                {
+	                    return;
+	                }
+                    
+                    Vector3 mousePosition = hit.point;
                     float mousePositionX = mousePosition.x;
                     float mousePositionZ = mousePosition.z;
                     Controllable activeCharacterControllerScript = activeCharacter.GetComponent<Controllable>();
