@@ -34,6 +34,7 @@ public class Interactable : MonoBehaviour
 
     void OnMouseDown()
     {
+        Debug.Log("Clicked");
         GameObject activeCharacter = gameController.getActiveCharacter();
         if (activeCharacter != null)
         {
