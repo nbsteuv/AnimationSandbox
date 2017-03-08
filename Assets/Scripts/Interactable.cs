@@ -17,12 +17,14 @@ public class Interactable : MonoBehaviour
     private GameControllerScript gameController;
 
     private Dictionary<GameObject, GameObject> interactZoneSlots;
+    private Dictionary<GameObject, GameObject> slotsByActor;
     private List<GameObject> watchForCloseDistance;
 
     // Use this for initialization
     void Start () {
         gameController = GameObject.Find("GameController").GetComponent<GameControllerScript>();
         interactZoneSlots = new Dictionary<GameObject, GameObject>();
+        slotsByActor = new Dictionary<GameObject, GameObject>();
         watchForCloseDistance = new List<GameObject>();
     }
 	
@@ -36,12 +38,13 @@ public class Interactable : MonoBehaviour
     {
         Debug.Log("Clicked");
         GameObject activeCharacter = gameController.getActiveCharacter();
-        if (activeCharacter != null)
+        if (activeCharacter != null && !slotsByActor.ContainsKey(activeCharacter))
         {
             if (findOpenSlot())
             {
                 GameObject openSlot = findOpenSlot();
                 interactZoneSlots.Add(openSlot, activeCharacter);
+                slotsByActor.Add(activeCharacter, openSlot);
                 watchForCloseDistance.Add(openSlot);
                 activeCharacter.GetComponent<Controllable>().walk(openSlot.transform.position.x, openSlot.transform.position.z);
             }

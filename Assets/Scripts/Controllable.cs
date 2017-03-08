@@ -141,4 +141,9 @@ public class Controllable : MonoBehaviour
         interacting = isInteracting;
     }
 
+    public void setInteractInProgress()
+    {
+        Debug.Log("Interacting in progress");
+    }
+
 }
