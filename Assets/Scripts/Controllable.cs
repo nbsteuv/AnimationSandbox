@@ -16,7 +16,6 @@ public class Controllable : MonoBehaviour
     private Animator anim;
     private float timeUntilAction = 0;
     private bool active = false;
-    private bool animationLock = false;
     private GameObject halo = null;
 
     private GameObject controller = null;
@@ -27,9 +26,12 @@ public class Controllable : MonoBehaviour
     private float rotationTime;
     private float rotationCurve;
     private bool interacting;
-    
-	// Use this for initialization
-	void Start ()
+
+    private bool animationLock = false;
+    private bool endingInteraction = false;
+
+    // Use this for initialization
+    void Start ()
 	{
 	    gameController = GameObject.Find("GameController").GetComponent<GameControllerScript>();
 	    anim = GetComponent<Animator>();
@@ -72,10 +74,13 @@ public class Controllable : MonoBehaviour
 
     public void walk(float locationX, float locationZ)
     {
-        if (timeUntilAction <= 0 && controller == null)
+        if (timeUntilAction <= 0)
         {
-            targetPosition = new Vector3(locationX, transform.position.y, locationZ);
-            targetDirection = Quaternion.LookRotation(targetPosition - transform.position, Vector3.up);
+            if (controller == null)
+            {
+                targetPosition = new Vector3(locationX, transform.position.y, locationZ);
+                targetDirection = Quaternion.LookRotation(targetPosition - transform.position, Vector3.up);
+            }
         }
     }
 
@@ -160,7 +165,27 @@ public class Controllable : MonoBehaviour
         {
             Debug.Log("Animation lock off");
             animationLock = false;
+            if (endingInteraction)
+            {
+                setController(null);
+                endingInteraction = false;
+            }
         }
+    }
+
+    public bool getAnimationLock()
+    {
+        return animationLock;
+    }
+
+    public GameObject getController()
+    {
+        return controller;
+    }
+
+    public void endInteraction()
+    {
+        endingInteraction = true;
     }
 
 }

@@ -26,14 +26,26 @@ public class GameControllerScript : MonoBehaviour
 	                {
 	                    return;
 	                }
-                    
-                    Vector3 mousePosition = hit.point;
-                    float mousePositionX = mousePosition.x;
-                    float mousePositionZ = mousePosition.z;
+
                     Controllable activeCharacterControllerScript = activeCharacter.GetComponent<Controllable>();
                     if (activeCharacterControllerScript != null)
                     {
-                        activeCharacterControllerScript.walk(mousePositionX, mousePositionZ);
+                        GameObject activeController = activeCharacterControllerScript.getController();
+                        if (activeController == null)
+                        {
+                            Debug.Log("Moving");
+                            Vector3 mousePosition = hit.point;
+                            float mousePositionX = mousePosition.x;
+                            float mousePositionZ = mousePosition.z;
+                            activeCharacterControllerScript.walk(mousePositionX, mousePositionZ);
+                        }
+                        else
+                        {
+                            Interactable controllerScript = activeController.GetComponent<Interactable>();
+                            controllerScript.endInteraction(activeCharacter);
+                            Debug.Log("Ending interaction in controller script");
+                        }
+                        
                     }
                 }
 	        }

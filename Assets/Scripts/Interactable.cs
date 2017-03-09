@@ -82,6 +82,16 @@ public class Interactable : MonoBehaviour
         
     }
 
+    public void endInteraction(GameObject actor)
+    {
+        switch (interaction)
+        {
+            case Interaction.Sit:
+                stand(actor);
+                break;
+        }
+    }
+
     void checkActorDistances()
     {
         List<GameObject> removeList = new List<GameObject>();
@@ -104,14 +114,18 @@ public class Interactable : MonoBehaviour
 
     void sit(GameObject actor, GameObject slot)
     {
-        Debug.Log("Rotate");
-        Debug.Log(slot.transform.rotation);
         Controllable actorControl = actor.GetComponent<Controllable>();
         actorControl.setInteracting(1);
-        //TODO: Lerp and Slerp in coroutines here
+        //TODO: Lerp and Slerp in coroutines here--may fix hopping issue
         actor.transform.rotation = slot.transform.rotation;
-        actor.transform.position = slot.transform.position;
+        //actor.transform.position = slot.transform.position;
         Debug.Log("Sit");
         actor.GetComponent<Animator>().SetBool("IsSitting", true);
+    }
+
+    void stand(GameObject actor)
+    {
+        actor.GetComponent<Animator>().SetBool("IsSitting", false);
+        actor.GetComponent<Controllable>().endInteraction();
     }
 }
