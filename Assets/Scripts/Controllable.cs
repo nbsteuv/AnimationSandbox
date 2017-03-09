@@ -167,6 +167,7 @@ public class Controllable : MonoBehaviour
             animationLock = false;
             if (endingInteraction)
             {
+                controller.GetComponent<Interactable>().deregister(gameObject);
                 setController(null);
                 endingInteraction = false;
                 setInteracting(0);

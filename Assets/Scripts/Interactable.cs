@@ -128,4 +128,11 @@ public class Interactable : MonoBehaviour
         actor.GetComponent<Animator>().SetBool("IsSitting", false);
         actor.GetComponent<Controllable>().endInteraction();
     }
+
+    public void deregister(GameObject actor)
+    {
+        GameObject registeredSlot = slotsByActor[actor];
+        interactZoneSlots.Remove(registeredSlot);
+        slotsByActor.Remove(actor);
+    }
 }
