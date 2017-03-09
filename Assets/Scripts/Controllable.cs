@@ -169,6 +169,7 @@ public class Controllable : MonoBehaviour
             {
                 setController(null);
                 endingInteraction = false;
+                setInteracting(0);
             }
         }
     }
