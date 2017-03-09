@@ -31,21 +31,17 @@ public class GameControllerScript : MonoBehaviour
                     if (activeCharacterControllerScript != null)
                     {
                         GameObject activeController = activeCharacterControllerScript.getController();
-                        if (activeController == null)
-                        {
-                            Debug.Log("Moving");
-                            Vector3 mousePosition = hit.point;
-                            float mousePositionX = mousePosition.x;
-                            float mousePositionZ = mousePosition.z;
-                            activeCharacterControllerScript.walk(mousePositionX, mousePositionZ);
-                        }
-                        else
+                        if (activeController != null)
                         {
                             Interactable controllerScript = activeController.GetComponent<Interactable>();
                             controllerScript.endInteraction(activeCharacter);
                             Debug.Log("Ending interaction in controller script");
                         }
-                        
+                        Debug.Log("Moving");
+                        Vector3 mousePosition = hit.point;
+                        float mousePositionX = mousePosition.x;
+                        float mousePositionZ = mousePosition.z;
+                        activeCharacterControllerScript.walk(mousePositionX, mousePositionZ); 
                     }
                 }
 	        }

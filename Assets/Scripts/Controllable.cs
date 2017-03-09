@@ -21,8 +21,10 @@ public class Controllable : MonoBehaviour
     private GameObject controller = null;
 
     private Vector3 targetPosition;
+    private Vector3 queuedTargetPosition;
 
     private Quaternion targetDirection;
+    private Quaternion queuedTargetDirection;
     private float rotationTime;
     private float rotationCurve;
     private bool interacting;
@@ -80,6 +82,11 @@ public class Controllable : MonoBehaviour
             {
                 targetPosition = new Vector3(locationX, transform.position.y, locationZ);
                 targetDirection = Quaternion.LookRotation(targetPosition - transform.position, Vector3.up);
+            }
+            else
+            {
+                queuedTargetPosition = new Vector3(locationX, transform.position.y, locationZ);
+                queuedTargetDirection = Quaternion.LookRotation(targetPosition - transform.position, Vector3.up);
             }
         }
     }
@@ -171,6 +178,8 @@ public class Controllable : MonoBehaviour
                 setController(null);
                 endingInteraction = false;
                 setInteracting(0);
+                targetDirection = queuedTargetDirection;
+                targetPosition = queuedTargetPosition;
             }
         }
     }
